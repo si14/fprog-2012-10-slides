@@ -1,0 +1,87 @@
+\documentclass[10pt]{beamer}
+
+\usepackage{fontspec}
+\usepackage{xunicode}
+\usepackage{xltxtra}
+\setsansfont{FreeSans}
+\setmonofont{DejaVuSansMono}
+
+\usepackage{listings}
+\usepackage{textpos}
+\usepackage{tikz}
+\usepackage{minted}
+
+\setbeamertemplate{footline}[frame]
+\setbeamertemplate{items}[default]
+\usetheme{Warsaw}
+\usecolortheme{seahorse}
+\setbeamertemplate{itemize items}[default]
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}[frame number]
+\lstset{columns=fixed}
+\setbeamerfont*{block body}{series=\tt}
+\definecolor{lightgray}{rgb}{0.9,0.9,0.9}
+\definecolor{midgray}{rgb}{0.5,0.5,0.5}
+
+\newcommand{\light}[1]{\textcolor{gray}{\footnotesize{#1}}}
+\newcommand{\code}[4]{\inputminted[linenos, frame=none, firstline=#2, lastline=#3,
+  framesep=10pt, bgcolor=lightgray]{#4}{#1}}
+
+\title[Erlang, Haskell, production]{Erlang и Haskell в production: проблемы и решения}
+\author{Dmitry Groshev, Fedor Gogolev}
+\date{ % \includegraphics[height=3cm]{stadshuset-townhall2}\\
+  04.10.2012}
+\institute{FProg 2012-10}
+
+% \addtobeamertemplate{frametitle}{}{%
+% \begin{textblock*}{100mm}(1\textwidth,-0.7cm)
+% \includegraphics[height=0.6cm]{stadshuset-townhall2}
+% \end{textblock*}}
+
+\begin{document}
+\renewcommand*{\inserttotalframenumber}{\pageref{lastframe}}
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}{Общий план}
+  \begin{itemize}
+  \item Вступление — кратко об облаках
+  \item Старая архитектура, боль
+  \item Новая архитектура, счастье
+  \item Rainbowdash
+  \item Twilightsparkle
+  \item Zekora → Derpy (CLJS fail)
+  \item Сюрприз
+  \item Резюме
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \begin{center}
+    \Large
+    Вступление
+  \end{center}
+\end{frame}
+
+
+\begin{frame}[plain]
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[at=(current page.center)] {
+      \includegraphics[height=\paperheight]{clouds.jpg}
+    };
+  \end{tikzpicture}
+\end{frame}
+
+
+
+% \begin{frame}{What's it all about}
+%   \begin{center}
+%     \code{code.erl}{1}{17}{erlang}
+%   \end{center}
+% \end{frame}
+
+\begin{frame}\label{lastframe}
+  Copyrighted stuff:
+  https://en.wikipedia.org/wiki/File:Cirrus_sky_panorama.jpg
+\end{frame}
