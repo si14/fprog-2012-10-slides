@@ -118,14 +118,13 @@
   \end{center}
 \end{frame}
 
-\begin{frame}{YAWNDB}
+\begin{frame}{YAWNDB — Yet Another Weel iNvented}
   \begin{itemize}
-  \item Timeseries данные
-  \item Много операций записи (десятки тысяч в секунду)
-  \item Хочется аггрегацию
+  \item Timeseries данные (утилизация CPU per second)
+  \item Много операций записи (десятки тысяч в секунду — виртуальных машин много)
+  \item Хочется аггрегацию (max/min/avg за период)
   \item Graphite медленный, RRD не умеет аггрегацию
   \end{itemize}
-  Yet Another Weel iNvented
 \end{frame}
 
 \begin{frame}{YAWNDB}
@@ -166,10 +165,10 @@
 
 \begin{frame}{YAWNDB: выводы}
   \begin{itemize}
-  \item NIF это круто, но опасно
+  \item NIF (Native Implemented Functions) это круто, но опасно
   \item мутабельные NIF binaries предоставляют изолированную мутабельность
   \item писать NIF неприятно, документация полна, но не всегда помогает
-  \item property-based тестирование при использовании NIF необходимо, т.к. ошибки нетривиальны, а segfault'ы травматичны
+  \item property-based тестирование при использовании NIF необходимо, т.к. ошибки нетривиальны (C же!), а segfault'ы травматичны
   \item fuzz-тесты на случайных/бессмысленных данных полезны
   \item писать высококонкурентные системы сложно, Erlang не добавляет сложности
   \item устойчивость к ошибкам Erlang'а помогает, в продакшне почти полгода был редкий рейс без последствий вообще
@@ -190,6 +189,7 @@
 
 \begin{frame}{YAWNDB: ссылки}
   \begin{itemize}
+  \item Graphite \url{https://github.com/graphite-project}
   \item Ecirca \url{https://github.com/band115/ecirca}
   \item Cowboy \url{https://github.com/extend/cowboy}
   \item Cowboy \url{https://github.com/uwiger/gproc}
@@ -223,7 +223,6 @@
   \begin{itemize}
   \item Миграция
   \item Пулы
-  \item Драйвера устройств
   \item Динамическое управление памятью
   \item ...
   \end{itemize}
@@ -232,9 +231,7 @@
 \begin{frame}{Больше, чем XAPI}
   \begin{itemize}
   \item учёт используемых ресурсов (биллинг, статистика)
-  \item управление машинами из биллинга (отключение за неуплату)
-  \item управление машинами из веб-интерфейса и API пользователями
-  \item управление машинами администратором
+  \item управление машинами из биллинга, веб-интерфейса, API и администраторами
   \item детекция нештатных ситуаций (падение хранилища либо сети)
   \item динамическая балансировка нагрузки
   \item предоставление интерфейсов к машине, не предусмотренных XAPI
@@ -315,13 +312,13 @@
     \item балансировка нагрузки на бекендах по ожидаемым ресурсам и внешним характеристикам процессов (ping, mem)
     \item отчёты о состоянии системы (ping, mem, cpu, rps, latency)
     \item 2-phase commit конфига
-    \item live reloading Haskell-кода с персистентными задачами
+    \item почти live reloading Haskell-кода с персистентными задачами и HTTP-коннектами
   \end{itemize}
 \end{frame}
 
 \begin{frame}{Rainbowdash: выводы}
   \begin{itemize}
-  \item переход Python → Erlang занимает неделю-полторы
+  \item переход программистов Python → Erlang занимает неделю-полторы
   \item запаковка не-Erlang кода с помощью rebar это боль (Make+bash+cabal+cabal-dev)
   \item jobs — прекрасная библиотека, но документации почти нет;
   \item любить себя полезно, несколько часов на автоматизацию перезагрузки бекенда при изменении бинарника окупились многократно
@@ -422,7 +419,7 @@
   \begin{minted}[fontsize=\footnotesize]{haskell}
     vm <- createVm
     barrier $ destroyVm vm
-    disk <- createDisk 
+    disk <- createDisk
     barrier $ destroyDisk disk
     error "Any error"
   \end{minted}
