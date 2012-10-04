@@ -74,7 +74,6 @@
   \item Коротко об облаках
   \item Rainbowdash
   \item Twilightsparkle
-  \item Резюме
   \end{itemize}
 \end{frame}
 
@@ -385,7 +384,7 @@
 \end{frame}
 
 
-\begin{frame}{TwiligthSparkle}
+\begin{frame}{TwilightSparkle}
 \begin{itemize}
   \item Общая архитектура
   \item Template Haskell и генерация сервера
@@ -396,7 +395,7 @@
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{TwiligthSparkle: общая архитектура}
+\begin{frame}[fragile]{TwilightSparkle: общая архитектура}
 \begin{itemize}
   \item Сервер, занимающийся чтением запросов из stdin и пишущий ответы
   в stdout
@@ -420,7 +419,7 @@
 \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{TwiligthSparkle: Template Haskell и генерация сервера}
+\begin{frame}[fragile]{TwilightSparkle: Template Haskell и генерация сервера}
 
   Template Haskell используется для генерации функций разбора запросов
   от сервера. Например из кода:
@@ -437,14 +436,14 @@
   dispatch ref "vm_start"
            (ErlTuple [ErlBinary "user", ErlInt userId])
            inputV = case fromErl inputV of
-      Nothing -> invalidTask
-      Just (i :: VMStartTask) -> do
-          ...  -- Process request
+               Nothing -> invalidTask
+               Just (i :: VMStartTask) -> do
+                   ...  -- Process request
   dispatch ref "vm_start" _user _input = invalidTask
 \end{minted}
 \end{frame}
 
-\begin{frame}[fragile]{TwiligthSparkle: Контроль ошибок}
+\begin{frame}[fragile]{TwilightSparkle: Контроль ошибок}
 
   \begin{itemize}
     \item Прерывание выполнения подобно ErrorT трансформеру
@@ -460,7 +459,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{TwiligthSparkle: Барьеры}
+\begin{frame}[fragile]{TwilightSparkle: Барьеры}
 
   \begin{itemize}
     \item Существует необходимость отката изменений в случае ошибок
@@ -481,7 +480,7 @@
 
 \end{frame}
 
-\begin{frame}[fragile]{TwiligthSparkle: Persistent ORM}
+\begin{frame}[fragile]{TwilightSparkle: Persistent ORM}
   \begin{itemize}
     \item Первая версия не использовала ORM
   \end{itemize}
@@ -491,7 +490,7 @@
   \end{minted}
   \begin{itemize}
     \item Регулярно возникали опечатки в названиях полей, в передаваемых данных
-    \item Для Хаскеля нет рабочих альтернативных ORM кроме persistent
+    \item Для Хаскеля нет рабочих альтернативных ORM кроме Persistent
   \end{itemize}
   \begin{minted}[fontsize=\footnotesize]{haskell}
     vm@(VM { vmUuid, vmTemplate }) <- fetch [ VmId ==. iVmId ]
@@ -502,7 +501,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{TwiligthSparkle: Проблемы при разработке}
+\begin{frame}{TwilightSparkle: Проблемы при разработке}
   \begin{itemize}
     \item Space leaks
     \begin{itemize}
@@ -515,13 +514,13 @@
     \end{itemize}
     \item Вероятно, более высокий порог вхождения
     \begin{itemize}
-      \item Тем не менее в проект, кроме ядра, успешно пишут программисты
+      \item Тем не менее, в проект, кроме ядра, успешно пишут программисты
       без какого-либо функционального бэкграунда
     \end{itemize}
   \end{itemize}
 \end{frame}
 
-\begin{frame}{TwiligthSparkle: Выводы}
+\begin{frame}{TwilightSparkle: Выводы}
   \begin{itemize}
     \item Заметно упало количество не логических ошибок, например:
     \begin{itemize}
