@@ -350,7 +350,7 @@
 \end{itemize}
 \end{frame}
 
-\begin{frame}{TwiligthSparkle: общая архитектура}
+\begin{frame}[fragile]{TwiligthSparkle: общая архитектура}
 \begin{itemize}
   \item<1-> Сервер, занимающийся чтением запросов из stdin и пишущий ответы
   в stdout
@@ -359,13 +359,18 @@
     \item Был написан модуль реализующий ETF (External Term Format)
   \end{itemize}
   \item<2-> Воркеры, выполняющиеся в отдельных процессах
-  \item<3-> Каждый запрос определяется тремя параметрами: source, input и result
+  \item<3-> Сложное ядро, максимально простой API для написания непосредственно
+  обработчиков запросов
+  \item<4-> Каждый запрос определяется тремя параметрами: source, input и result
   \begin{itemize}
     \item source — Источник задачи, в нашем случае это пользователь API,
     администратор или внутренний сервис
     \item input — Входные данные запроса
     \item result — Результат на выполнение запроса
   \end{itemize}
+  \begin{minted}[fontsize=\footnotesize]{haskell}
+    class TaskSource source => Task source input result
+  \end{minted}
 \end{itemize}
 \end{frame}
 
