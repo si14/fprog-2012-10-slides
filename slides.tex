@@ -335,11 +335,86 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Haskell test}
+\begin{frame}
   \begin{center}
-    \footnotesize
-    \code{code.hs}{1}{12}{haskell}
+    \Large
+    Twilightsparkle
   \end{center}
+\end{frame}
+
+\begin{frame}{TwiligthSparkle}
+\begin{itemize}
+  \item Общая архитектура
+  \item Template Haskell и генерация сервера
+  \item Контроль ошибок на уровне типов
+  \item Барьеры — откат изменений
+  \item Persistent ORM
+  \item Проблемы при разработке
+\end{itemize}
+\end{frame}
+
+\begin{frame}{TwiligthSparkle: общая архитектура}
+\begin{itemize}
+  \item<1-> Сервер, занимающийся чтением запросов из stdin и пишущий ответы
+  в stdout
+  \item<1-> Используется стандартный для Эрланга способ коммуникации — порты
+  \begin{itemize}
+    \item Был написан модуль реализующий ETF (External Term Format)
+  \end{itemize}
+  \item<2-> Воркеры, выполняющиеся в отдельных процессах
+  \item<3-> Каждый запрос определяется тремя параметрами: source, input и result
+  \begin{itemize}
+    \item source — Источник задачи, в нашем случае это пользователь API,
+    администратор или внутренний сервис
+    \item input — Входные данные запроса
+    \item result — Результат на выполнение запроса
+  \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{TwiligthSparkle: Template Haskell и генерация сервера}
+
+  Template Haskell используется для генерации функций разбора запросов
+  от сервера, например из кода:
+
+  \begin{minted}{haskell}
+    [erlServer|
+        vm_start :: TS User VMStartTask ()
+    |]
+  \end{minted}
+
+генерируется код:
+
+  \begin{minted}{haskell}
+  dispatch ref "vm_start"
+           (ErlTuple [ErlBinary "user", ErlInt userId])
+           inputV = case fromErl inputV of
+      Nothing -> invalidTask
+      Just (i :: VMStartTask) -> do
+          ...  -- Process request
+  dispatch ref "vm_start" _user _input = invalidTask
+\end{minted}
+\end{frame}
+
+\begin{frame}[fragile]{TwiligthSparkle — Контроль ошибок}
+
+  \begin{itemize}
+    \item Прерывание выполнения подобно ReaderT монаде
+    \item Требование явного декларирования списка возможных ошибок
+  \end{itemize}
+
+\end{frame}
+
+\begin{frame}{TwiligthSparkle — Барьеры}
+
+\end{frame}
+
+\begin{frame}{TwiligthSparkle — Persistent ORM}
+
+\end{frame}
+
+\begin{frame}{TwiligthSparkle — Проблемы при разработке}
+
 \end{frame}
 
 \begin{frame}
