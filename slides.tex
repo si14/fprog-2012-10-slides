@@ -32,7 +32,7 @@
       rectangle,
       rounded corners,
       draw=black, thick,
-      text width=4.5em,
+      text width=5em,
       minimum height=1em,
       text centered},
     % Define arrow style
@@ -168,23 +168,19 @@
   \begin{itemize}
   \item NIF это круто, но опасно
   \item мутабельные NIF binaries предоставляют изолированную мутабельность
-  \item писать NIF неприятно, документация полна, но не всегда
-    помогает
-  \item property-based тестирование при использовании NIF необходимо,
-    т.к. ошибки нетривиальны, а segfault'ы травматичны
+  \item писать NIF неприятно, документация полна, но не всегда помогает
+  \item property-based тестирование при использовании NIF необходимо, т.к. ошибки нетривиальны, а segfault'ы травматичны
   \item fuzz-тесты на случайных/бессмысленных данных полезны
-  \item писать высококонкурентные системы сложно, Erlang не добавляет
-    сложности
-  \item устойчивость к ошибкам Erlang'а помогает, в продакшне почти
-    полгода был редкий рейс без последствий вообще
+  \item писать высококонкурентные системы сложно, Erlang не добавляет сложности
+  \item устойчивость к ошибкам Erlang'а помогает, в продакшне почти полгода был редкий рейс без последствий вообще
   \end{itemize}
 \end{frame}
 
 \begin{frame}{YAWNDB: выводы 2}
   \begin{itemize}
   \item код лаконичен (650 строк на C, 1500 строк на Erlang'е)
-  \item если вы пишите что-то сетевое, нет ни одной причины не
-    использовать Cowboy
+  \item если вы пишите что-то сетевое, нет ни одной причины не использовать Cowboy
+  \item если ваш проект длиннее 30 строк, нет ни одной причины не использовать gproc
   \item поддержка SMP Erlang'ом не миф
   \end{itemize}
   \begin{center}
@@ -196,6 +192,7 @@
   \begin{itemize}
   \item Ecirca \url{https://github.com/band115/ecirca}
   \item Cowboy \url{https://github.com/extend/cowboy}
+  \item Cowboy \url{https://github.com/uwiger/gproc}
   \item McErlang \url{https://github.com/fredlund/McErlang}
   \end{itemize}
 \end{frame}
@@ -205,6 +202,14 @@
     \Large
     Облака
   \end{center}
+\end{frame}
+
+\begin{frame}[plain]
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[at=(current page.center)] {
+      \includegraphics[height=\paperheight]{clouds.jpg}
+    };
+  \end{tikzpicture}
 \end{frame}
 
 \begin{frame}{Об облаках}
@@ -224,12 +229,110 @@
   \end{itemize}
 \end{frame}
 
+\begin{frame}{Больше, чем XAPI}
+  \begin{itemize}
+  \item учёт используемых ресурсов (биллинг, статистика)
+  \item управление машинами из биллинга (отключение за неуплату)
+  \item управление машинами из веб-интерфейса и API пользователями
+  \item управление машинами администратором
+  \item детекция нештатных ситуаций (падение хранилища либо сети)
+  \item динамическая балансировка нагрузки
+  \item предоставление интерфейсов к машине, не предусмотренных XAPI
+    (web-консоль, realtime потребление, MemoryOnDemand)
+  \end{itemize}
+  Много сложной «бизнес»-логики
+\end{frame}
+
+\begin{frame}{Старая архитектура}
+  \begin{itemize}
+    \item {\bf Make it work}, make it right, make it fast
+    \item Python+Bash помойка
+    \item Коммуникация через HTTP, Mongo и redis (aka «как получится»)
+    \item WTF is summationd? WTF is yawndbtiond-obsolete?
+    \item боль с Python+Mongo — много раздельного кода, размазывание схемы
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Новая архитектура}
+  \begin{itemize}
+    \item Make it work, {\bf make it right}, make it fast
+    \item Построение «от API»
+    \item VBD/VDI/VIF/BDSM → Disk/Network interface/...
+    \item Фиксированная схема данных
+    \item Erlang для сети и рантайма, Haskell для «бизнес»-логики
+    \item Механизм Erlang ports — stdin/stdout + Erlang External Term Format
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Новая архитектура}
+  \begin{tikzpicture}[node distance=1cm, auto,]
+    \node[actor] (rnbwdash) {Rainbow Dash};
+    \node[actor, left=1.75cm of rainbowdash] (client) {Happy customer}
+    edge[arr, <->] (rnbwdash);
+    \node[actor, right=1.75cm of rainbowdash] (twlght1) {Twilight Sparkle}
+    edge[arr, <->] (rnbwdash);
+    \node[actor, above=0.3cm of twlght1] (twlght2) {Twilight Sparkle}
+    edge[arr, <->] (rnbwdash);
+    \node[actor, below=0.3cm of twlght1] (twlght3) {Twilight Sparkle}
+    edge[arr, <->] (rnbwdash);
+    \node[actor, right=1.5cm of twlght1] (mongo) {Legacy Mongo}
+    edge[arr, <->] (twlght1.east)
+    edge[arr, <->] (twlght2.east)
+    edge[arr, <->] (twlght3.east);
+    \node[actor, above=1cm of mongo] (postgre) {PostgreSQL}
+    edge[arr, <->, bend right=5] (twlght1.east)
+    edge[arr, <->, bend right=10] (twlght2.east)
+    edge[arr, <->, bend right=20] (twlght3.east);
+    \node[actor, below=1cm of mongo] (xapi) {XAPI}
+    edge[arr, <->, bend left=20] (twlght1.east)
+    edge[arr, <->, bend left=10] (twlght2.east)
+    edge[arr, <->, bend left=5] (twlght3.east);
+  \end{tikzpicture}
+\end{frame}
+
+\begin{frame}
+  \begin{center}
+    \Large
+    Rainbowdash
+  \end{center}
+\end{frame}
+
 \begin{frame}[plain]
   \begin{tikzpicture}[remember picture,overlay]
     \node[at=(current page.center)] {
-      \includegraphics[height=\paperheight]{clouds.jpg}
+      \includegraphics[height=\paperheight]{rainbowdash.jpg}
     };
   \end{tikzpicture}
+\end{frame}
+
+\begin{frame}{Rainbowdash}
+  \begin{itemize}
+    \item Милая, быстрая, немного простоватая, но reliable для друзей
+    \item REST + RPC: HTTP REST API → RPC API на фронтенде по конфигу с верификацией (type safety!)
+    \item Асинхронность + синхронность: интерфейс синхронный, rainbowdash асинхронна, twilightsparkle синхронна
+    \item «Задачи» с уникальным идентификатором для каждого запроса
+    \item 2-phase commit задачи: проверка корректности и ожидаемой ресурсоёмкости, запуск (возможно, отложенный)
+    \item балансировка нагрузки на бекендах по ожидаемым ресурсам и внешним характеристикам процессов (ping, mem)
+    \item отчёты о состоянии системы (ping, mem, cpu, rps, latency)
+    \item 2-phase commit конфига
+    \item live reloading Haskell-кода с персистентными задачами
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Rainbowdash: выводы}
+  \begin{itemize}
+  \item переход Python → Erlang занимает неделю-полторы
+  \item запаковка не-Erlang кода с помощью rebar это боль (Make+bash+cabal+cabal-dev)
+  \item jobs — прекрасная библиотека, но документации почти нет;
+  \item любить себя полезно, несколько часов на автоматизацию перезагрузки бекенда при изменении бинарника окупились многократно
+  \item кода до первой работоспособной версии достаточно мало (1k строк)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Rainbowdash: ссылки}
+  \begin{itemize}
+  \item jobs \url{https://github.com/uwiger/jobs/}
+  \end{itemize}
 \end{frame}
 
 \begin{frame}{Haskell test}
@@ -241,6 +344,8 @@
 
 \begin{frame}\label{lastframe}
   Copyrighted stuff:
-  https://en.wikipedia.org/wiki/File:Cirrus\_sky\_panorama.jpg \\
-  http://www.wallpapervortex.com/wallpaper-15684\_1\_other\_wallpapers\_my\_little\_pony.html
+  \footnotesize
+  \url{https://en.wikipedia.org/wiki/File:Cirrus\_sky\_panorama.jpg} \\
+  \url{http://www.wallpapervortex.com/wallpaper-15684\_1\_other\_wallpapers\_my\_little\_pony.html} \\
+  \url{http://www.tikihumor.com/3287/rainbow-dash-makes-it-rain/rainbow-dash-makes-it-rain-2/}
 \end{frame}
