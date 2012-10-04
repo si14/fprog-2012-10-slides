@@ -376,6 +376,15 @@
   \end{center}
 \end{frame}
 
+\begin{frame}[plain]
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[at=(current page.center)] {
+      \includegraphics[height=\paperheight]{twilight.png}
+    };
+  \end{tikzpicture}
+\end{frame}
+
+
 \begin{frame}{TwiligthSparkle}
 \begin{itemize}
   \item Общая архитектура
@@ -389,16 +398,16 @@
 
 \begin{frame}[fragile]{TwiligthSparkle: общая архитектура}
 \begin{itemize}
-  \item<1-> Сервер, занимающийся чтением запросов из stdin и пишущий ответы
+  \item Сервер, занимающийся чтением запросов из stdin и пишущий ответы
   в stdout
-  \item<1-> Используется стандартный для Эрланга способ коммуникации — порты
+  \item Используется стандартный для Эрланга способ коммуникации — порты
   \begin{itemize}
     \item Был написан модуль реализующий ETF (External Term Format)
   \end{itemize}
-  \item<2-> Воркеры, выполняющиеся в отдельных процессах
-  \item<3-> Сложное ядро, максимально простой API для написания непосредственно
+  \item Воркеры, выполняющиеся в отдельных процессах
+  \item Сложное ядро, максимально простой API для написания непосредственно
   обработчиков запросов
-  \item<4-> Каждый запрос определяется тремя параметрами: source, input и result
+  \item Каждый запрос определяется тремя параметрами: source, input и result
   \begin{itemize}
     \item source — Источник задачи, в нашем случае это пользователь API,
     администратор или внутренний сервис
@@ -537,4 +546,5 @@
   \url{https://en.wikipedia.org/wiki/File:Cirrus\_sky\_panorama.jpg} \\
   \url{http://www.wallpapervortex.com/wallpaper-15684\_1\_other\_wallpapers\_my\_little\_pony.html} \\
   \url{http://www.tikihumor.com/3287/rainbow-dash-makes-it-rain/rainbow-dash-makes-it-rain-2/}
+  \url{http://qeinone.deviantart.com/art/Twilight-Sparkle-205789859}
 \end{frame}
