@@ -377,7 +377,7 @@
   Template Haskell используется для генерации функций разбора запросов
   от сервера, например из кода:
 
-  \begin{minted}{haskell}
+  \begin{minted}[fontsize=\footnotesize]{haskell}
     [erlServer|
         vm_start :: TS User VMStartTask ()
     |]
@@ -385,7 +385,7 @@
 
 генерируется код:
 
-  \begin{minted}{haskell}
+  \begin{minted}[fontsize=\footnotesize]{haskell}
   dispatch ref "vm_start"
            (ErlTuple [ErlBinary "user", ErlInt userId])
            inputV = case fromErl inputV of
@@ -402,6 +402,10 @@
     \item Прерывание выполнения подобно ReaderT монаде
     \item Требование явного декларирования списка возможных ошибок
   \end{itemize}
+  \begin{minted}[fontsize=\footnotesize]{haskell}
+    instance AllowError source VMStartTask () VMNotFound
+    instance AllowError source VMStartTask () VMIsAlreadyRunning
+  \end{minted}
 
 \end{frame}
 
