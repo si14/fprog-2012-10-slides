@@ -433,8 +433,25 @@
 
 \end{frame}
 
-\begin{frame}{TwiligthSparkle — Persistent ORM}
-
+\begin{frame}[fragile]{TwiligthSparkle — Persistent ORM}
+  \begin{itemize}
+    \item Первая версия не использовала ORM
+  \end{itemize}
+  \begin{minted}[fontsize=\footnotesize]{haskell}
+    vm@(VM { vmUuid, vmTemplate }) <-
+        fetch VMCollection [ "id" =: iVmId ]
+  \end{minted}
+  \begin{itemize}
+    \item Регулярно возникали опечатки в названиях полей, в передаваемых данных
+    \item Для Хаскеля нет рабочих альтернативных ORM кроме persistent
+  \end{itemize}
+  \begin{minted}[fontsize=\footnotesize]{haskell}
+    vm@(VM { vmUuid, vmTemplate }) <- fetch [ VmId ==. iVmId ]
+  \end{minted}
+  \begin{itemize}
+    \item Пришлось использовать патченную версию persistent-mongodb, так как
+    модель хранения отличается от подразумеваемой разработчиками
+  \end{itemize}
 \end{frame}
 
 \begin{frame}{TwiligthSparkle — Проблемы при разработке}
