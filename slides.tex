@@ -393,7 +393,7 @@
 \end{minted}
 \end{frame}
 
-\begin{frame}[fragile]{TwiligthSparkle — Контроль ошибок}
+\begin{frame}[fragile]{TwiligthSparkle: Контроль ошибок}
 
   \begin{itemize}
     \item Прерывание выполнения подобно ReaderT монаде
@@ -409,7 +409,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{TwiligthSparkle — Барьеры}
+\begin{frame}[fragile]{TwiligthSparkle: Барьеры}
 
   \begin{itemize}
     \item Существует необходимость отката изменений в случае ошибок
@@ -430,7 +430,7 @@
 
 \end{frame}
 
-\begin{frame}[fragile]{TwiligthSparkle — Persistent ORM}
+\begin{frame}[fragile]{TwiligthSparkle: Persistent ORM}
   \begin{itemize}
     \item Первая версия не использовала ORM
   \end{itemize}
@@ -451,8 +451,33 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{TwiligthSparkle — Проблемы при разработке}
+\begin{frame}{TwiligthSparkle: Проблемы при разработке}
+  \begin{itemize}
+    \item Space leaks
+    \begin{itemize}
+      \item Очень трудно найти источник проблемы при большом объёме кода
+      \item Решено использованием deepseq во всём проекте и внимательным
+      чтением документации к stm
+    \end{itemize}
+    \item Не хватает некоторых пакетов на hackage, либо не устраивает их состояние
+    \begin{itemize}
+      \item Написали библиотеку для работы с ETS
+      \item Стали поддерживать библиотеки bson и mongoDB
+    \end{itemize}
+    \item Вероятно, более высокий порог вхождения
+    \begin{itemize}
+      \item Тем не менее в проект успешно пишут программисты без какого-либо
+      функционального бэкграунда
+    \end{itemize}
+  \end{itemize}
+\end{frame}
 
+\begin{frame}{TwiligthSparkle: Выводы}
+  \begin{itemize}
+    \item Заметно упало количество не логических ошибок
+    \item Template Haskell — позволяет удобно решать большинство проблем, но
+    катастрофически плохо читается
+  \end{itemize}
 \end{frame}
 
 \begin{frame}
