@@ -267,9 +267,9 @@
 \begin{frame}{Новая архитектура}
   \begin{tikzpicture}[node distance=1cm, auto,]
     \node[actor] (rnbwdash) {Rainbow Dash};
-    \node[actor, left=1.75cm of rainbowdash] (client) {Happy customer}
+    \node[actor, left=0.9cm of rnbwdash] (client) {Happy customer}
     edge[arr, <->] (rnbwdash);
-    \node[actor, right=1.75cm of rainbowdash] (twlght1) {Twilight Sparkle}
+    \node[actor, right=0.9cm of rnbwdash] (twlght1) {Twilight Sparkle}
     edge[arr, <->] (rnbwdash);
     \node[actor, above=0.3cm of twlght1] (twlght2) {Twilight Sparkle}
     edge[arr, <->] (rnbwdash);
