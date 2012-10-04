@@ -414,7 +414,7 @@
 \begin{frame}[fragile]{TwiligthSparkle: Template Haskell и генерация сервера}
 
   Template Haskell используется для генерации функций разбора запросов
-  от сервера, и инстансов тайпклассов для ETF. Например из кода:
+  от сервера. Например из кода:
 
   \begin{minted}[fontsize=\footnotesize]{haskell}
     [erlServer|
@@ -498,8 +498,6 @@
     \item Space leaks
     \begin{itemize}
       \item Очень трудно найти источник проблемы при большом объёме кода
-      \item Решено использованием deepseq во всём проекте и внимательным
-      чтением документации к stm
     \end{itemize}
     \item Не хватает некоторых пакетов на hackage, либо не устраивает их состояние
     \begin{itemize}
@@ -516,10 +514,13 @@
 
 \begin{frame}{TwiligthSparkle: Выводы}
   \begin{itemize}
-    \item Заметно упало количество не логических ошибок
-    \item Template Haskell — позволяет удобно решать большинство проблем, но
+    \item Заметно упало количество не логических ошибок, например:
+    \begin{itemize}
+      \item Параметризованные идентификаторы, например (UUID VM), не допускают
+      их использование для не VM объектов
+    \end{itemize}
+    \item Template Haskell — позволяет удобно решать проблемы, но
     катастрофически плохо читается
-    \item Излишняя лень может привести к большим проблемам
   \end{itemize}
 \end{frame}
 
