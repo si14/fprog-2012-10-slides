@@ -375,7 +375,7 @@
 \begin{frame}[fragile]{TwiligthSparkle: Template Haskell и генерация сервера}
 
   Template Haskell используется для генерации функций разбора запросов
-  от сервера, например из кода:
+  от сервера, и инстансов тайпклассов для ETF. Например из кода:
 
   \begin{minted}[fontsize=\footnotesize]{haskell}
     [erlServer|
@@ -400,16 +400,36 @@
 
   \begin{itemize}
     \item Прерывание выполнения подобно ReaderT монаде
+    \item Отдельные типы для каждого вида ошибок
     \item Требование явного декларирования списка возможных ошибок
-  \end{itemize}
+    \end{itemize}
   \begin{minted}[fontsize=\footnotesize]{haskell}
     instance AllowError source VMStartTask () VMNotFound
     instance AllowError source VMStartTask () VMIsAlreadyRunning
   \end{minted}
-
+  \begin{itemize}
+    \item Пока нет, но хочется контроль декларированных и не вызываемых ошибок
+  \end{itemize}
 \end{frame}
 
-\begin{frame}{TwiligthSparkle — Барьеры}
+\begin{frame}[fragile]{TwiligthSparkle — Барьеры}
+
+  \begin{itemize}
+    \item Существует необходимость отката изменений в случае ошибок
+    \item Барьеры устанавливаются после изменения, для которого требуется откат
+     и выполняются в случае возникновения ошибки
+  \end{itemize}
+  \begin{minted}[fontsize=\footnotesize]{haskell}
+    vm <- createVm
+    barrier $ destroyVm vm
+    disk <- createDisk 
+    barrier $ destroyDisk disk
+    error "Any error"
+  \end{minted}
+  \begin{itemize}
+    \item Технически реализовано как [TS source input result ()]
+     внутри TVar контекста ReaderT
+  \end{itemize}
 
 \end{frame}
 
